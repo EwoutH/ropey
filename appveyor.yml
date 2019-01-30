@@ -1,0 +1,43 @@
+image: Visual Studio 2017
+
+environment:
+  host: x86_64-pc-windows-msvc
+  matrix:
+    - platform: x86_64
+      target: x86_64-pc-windows-msvc
+      channel: stable
+    - platform: arm64
+      target: aarch64-pc-windows-msvc
+      channel: nightly
+matrix:
+  allow_failures:
+    - platform: arm64
+
+install:
+    - appveyor DownloadFile https://win.rustup.rs/ -FileName rustup-init.exe
+    - rustup-init -yv --default-toolchain %channel% --default-host %host%
+    - set PATH=%PATH%;%USERPROFILE%\.cargo\bin;%APPVEYOR_BUILD_FOLDER%
+    - rustc -vV
+    - cargo -vV
+    - rustup target add %target%
+
+build_script:
+    - git submodule update --init
+    - cargo build --release --target=%target%
+
+test_script:
+    - git submodule update --init
+    - cargo test --target=%target% --verbose
+
+artifacts:
+    - path: target\$(target)\release\ropey.*
+      name: ropey-$(platform)
+      
+deploy:
+  - provider: GitHub
+    artifact: ropey-$(platform)
+    auth_token:
+      secure: 'hY5Mk6KOwgQ97TzEBsM7Woqr1ZIm5QTvHg8EvxMV1x8j3wk/3mNBMqWFFbEIBK0i'
+    prerelease: true
+    on:
+      appveyor_repo_tag: true
