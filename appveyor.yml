@@ -30,7 +30,7 @@ test_script:
     - cargo test --target=%target% --verbose
 
 artifacts:
-    - path: target\$(target)\release\ropey.*
+    - path: target\$(target)\release\**\*.*
       name: ropey-$(platform)
       
 deploy:
