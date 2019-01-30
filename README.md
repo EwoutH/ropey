@@ -1,6 +1,7 @@
 # Ropey
 
 [![Travis CI Build Status][trav-ci-img]][trav-ci]
+[![AppVeyor Build Status][appv-ci-img]][appv-ci]
 [![Latest Release][crates-io-badge]][crates-io-url]
 [![Documentation][docs-rs-img]][docs-rs-url]
 
@@ -158,5 +159,7 @@ submitted for inclusion in Ropey by you will be licensed as above, without any a
 [crates-io-url]: https://crates.io/crates/ropey
 [trav-ci-img]: https://travis-ci.org/cessen/ropey.svg?branch=master
 [trav-ci]: https://travis-ci.org/cessen/ropey
+[appv-ci-img]: https://ci.appveyor.com/api/projects/status/github/cessen/ropey?branch=master&svg=true
+[appv-ci]: https://ci.appveyor.com/project/cessen/ropey
 [docs-rs-img]: https://docs.rs/ropey/badge.svg
 [docs-rs-url]: https://docs.rs/ropey
