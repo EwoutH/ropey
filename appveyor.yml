@@ -26,11 +26,11 @@ build_script:
     - cargo build --release --target=%target%      # Builds file defined in Cargo.toml (default main.rs)
 
 test_script:
-    - cargo test --target=%target% --verbose       # Runs tests in "src" and "tests" folders
-    - cargo bench --target=%target% --verbose      # Runs benchmarks in "src/lib.rs"
+    - cargo test --target=%target% --verbose       # Runs tests in `src` and `tests` folders
+#    - cargo bench --target=%target% --verbose      # Runs benchmarks in "src/lib.rs"
 
 artifacts:                          
-    - path: target\$(target)\release\*$(APPVEYOR_PROJECT_NAME)*.*     # Publishes all files in release folder (from build_script)
+    - path: target\$(target)\release\*$(APPVEYOR_PROJECT_NAME)*.*     # Publishes all files from `cargo build/test/bench --release`
       name: $(APPVEYOR_PROJECT_NAME)-$(platform)                      # Gives it a fancy name
       
 deploy:
