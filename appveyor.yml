@@ -8,34 +8,33 @@ environment:
       channel: stable
     - platform: arm64
       target: aarch64-pc-windows-msvc
-      channel: nightly
+      channel: stable
 matrix:
   allow_failures:
     - platform: arm64
 
 install:
-    - appveyor DownloadFile https://win.rustup.rs/ -FileName rustup-init.exe
-    - rustup-init -yv --default-toolchain %channel% --default-host %host%
-    - set PATH=%PATH%;%USERPROFILE%\.cargo\bin;%APPVEYOR_BUILD_FOLDER%
+    - git submodule update --init
+    - appveyor DownloadFile https://win.rustup.rs/ -FileName rustup-init.exe  # Downloads Rustup-init 
+    - rustup-init -yv --default-toolchain %channel% --default-host %host%     # Installs Rust
+    - set PATH=%PATH%;%USERPROFILE%\.cargo\bin;%APPVEYOR_BUILD_FOLDER%        # Adds Cargo to path
     - rustc -vV
     - cargo -vV
     - rustup target add %target%
 
 build_script:
-    - git submodule update --init
     - cargo build --release --target=%target%
 
 test_script:
-    - git submodule update --init
     - cargo test --target=%target% --verbose
 
 artifacts:
-    - path: target\$(target)\release\**\*.*
-      name: ropey-$(platform)
+    - path: target\$(target)\release\*.*
+      name: $(APPVEYOR_PROJECT_NAME)-$(platform)
       
 deploy:
   - provider: GitHub
-    artifact: ropey-$(platform)
+    artifact: $(APPVEYOR_PROJECT_NAME)-$(platform)
     auth_token:
       secure: 'hY5Mk6KOwgQ97TzEBsM7Woqr1ZIm5QTvHg8EvxMV1x8j3wk/3mNBMqWFFbEIBK0i'
     prerelease: true
